@@ -13,26 +13,27 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 @SecurityConfiguration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public BCryptPasswordEncoder getBcryptPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder getBcryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	public SCryptPasswordEncoder getScryptPasswordEncoder(){
-		return new SCryptPasswordEncoder();
-	}
+    @Bean
+    public SCryptPasswordEncoder getScryptPasswordEncoder() {
+        return new SCryptPasswordEncoder();
+    }
 
-	@Autowired
-	private AuthenticationProvider authenticationProvider;
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(authenticationProvider);
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider);
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and().authorizeRequests().anyRequest().authenticated();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.formLogin().defaultSuccessUrl("/main", true)
+                .and().authorizeRequests().anyRequest().authenticated();
+    }
 }
